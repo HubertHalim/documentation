@@ -20,8 +20,8 @@
 <link rel="llms-txt" href="/llms.txt">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=block"><link rel="stylesheet" href="/assets/css/styles.186c58b1.css">
-<script src="/assets/js/runtime~main.4b1163a3.js" defer="defer"></script>
-<script src="/assets/js/main.9155fc6f.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.9780287d.js" defer="defer"></script>
+<script src="/assets/js/main.3a3215a7.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><defs>
@@ -109,7 +109,13 @@ Floating payments are subject to settlement fees. For detailed fee structure, se
 </li>
 </ol>
 <p><strong>Example Timeline:</strong></p>
-<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#bfc7d5"><span class="token plain">User last settled: 08:00</span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">Current time: 18:00</span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">Events to process:</span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">- 09:30: Limit order filled (100 units)</span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">- 16:00: Floating payment settlement</span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">- 17:15: Limit order filled (50 units)</span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">Processing order:</span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">1. Process fills from 08:00-16:00 period (100 units)</span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">2. Process floating payment at 16:00</span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">3. Process fills from 16:00-24:00 period (50 units)</span><br></span></code></pre></div></div>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#bfc7d5"><span class="token plain">08:00              16:00 (fTime)         18:00 (now)</span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">  |─────────────────|──────────────────────|</span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">  │    Period 1     │       Period 2       │</span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">  │                 │                      │</span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">  ↓ 09:30           ↓ 16:00               ↓ 17:15</span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">  Fill              Float pay              Fill</span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">  (100 units)       settlement             (50 units)</span><br></span></code></pre></div></div>
+<p>Processing order:</p>
+<ol>
+<li>Process fills in Period 1 (08:00–16:00): apply fill at 09:30, updating position size to 100 units</li>
+<li>Process floating payment at 16:00 boundary: settle on the current position size (100 units)</li>
+<li>Process fills in Period 2 (16:00–18:00): apply fill at 17:15, updating position size to 150 units</li>
+</ol>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="notes">Notes<a href="#notes" class="hash-link" aria-label="Direct link to Notes" title="Direct link to Notes">​</a></h2>
 <p>Due to lazy settlement, on-chain state may not reflect the latest position values and balances. Query functions ending with <code>NoSettle</code> return raw, unsettled data that may be outdated.</p>
 <p><strong>Getting Up-to-Date Data:</strong></p>
