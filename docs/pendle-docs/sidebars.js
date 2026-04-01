@@ -1,7 +1,7 @@
 module.exports = {
   pendleSidebar: [
-    { type: "doc", id: "FAQ", label: "FAQ", customProps: { icon: "help" } },
     { type: "doc", id: "Introduction", label: "Introduction", customProps: { icon: "auto_stories" } },
+    { type: "doc", id: "FAQ", label: "FAQ", customProps: { icon: "help" } },
     {
       type: "category",
       label: "Protocol Mechanics",
